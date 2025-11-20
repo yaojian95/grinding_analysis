@@ -3,7 +3,7 @@ import os
 
 # 数据文件路径
 # 使用os.path.join构建路径
-DATA_FILE = os.path.join("D:\\", "yaojian", "data", "01 Data", "Ball Mill Section 1 Tag List_2023Q1.csv")
+DATA_FILE = os.path.join("..", "..", "grinding_data", "Ball Mill Section 1 Tag List_2023Q1.csv")
 
 # 目标变量
 TARGET_COLUMNS = ['磨浮工段1号球磨机旋流器溢流+80目', '磨浮工段1号球磨机旋流器溢流-200目']
@@ -25,8 +25,8 @@ BALL_MILL = 1 # 球磨机编号
 TIME_STEP = 60
 LSTM_UNITS = 100
 DENSE_UNITS = 50
-EPOCHS = 20
-BATCH_SIZE = 32
+EPOCHS = 1000
+BATCH_SIZE = 128
 TEST_SPLIT = 0.2 # 训练集和测试集的划分比例
 
 # LimiX 模型配置

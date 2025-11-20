@@ -6,10 +6,13 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import os
 import numpy as np
-from config import TARGET_COLUMNS, PLOT_PATH, RESULTS_DIR
+from config import PLOT_PATH, RESULTS_DIR
 import pandas as pd
 
-def plot_predictions(inversed_y_test, inversed_predictions):
+plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']        # 黑体
+plt.rcParams['axes.unicode_minus'] = False 
+
+def plot_predictions(inversed_y_test, inversed_predictions, target_features):
     """
     可视化模型的预测结果。
     :param inversed_y_test: 反归一化后的实际值。
@@ -19,18 +22,18 @@ def plot_predictions(inversed_y_test, inversed_predictions):
 
     # 绘制第一个目标变量的预测图
     plt.subplot(1, 2, 1)
-    plt.plot(inversed_y_test[:, 0], color='blue', label=f'Actual {TARGET_COLUMNS[0]}' if len(TARGET_COLUMNS) > 0 else 'Actual Target 1')
-    plt.plot(inversed_predictions[:, 0], color='red', label=f'Predicted {TARGET_COLUMNS[0]}' if len(TARGET_COLUMNS) > 0 else 'Predicted Target 1')
-    plt.title(f'{TARGET_COLUMNS[0]} Prediction' if len(TARGET_COLUMNS) > 0 else 'Target 1 Prediction')
+    plt.plot(inversed_y_test[:, 0], color='blue', label=f'Actual {target_features[0]}' if len(target_features) > 0 else 'Actual Target 1')
+    plt.plot(inversed_predictions[:, 0], color='red', label=f'Predicted {target_features[0]}' if len(target_features) > 0 else 'Predicted Target 1')
+    plt.title(f'{target_features[0]} Prediction' if len(target_features) > 0 else 'Target 1 Prediction')
     plt.xlabel('Time')
     plt.ylabel('Proportion')
     plt.legend()
 
     # 绘制第二个目标变量的预测图
     plt.subplot(1, 2, 2)
-    plt.plot(inversed_y_test[:, 1], color='blue', label=f'Actual {TARGET_COLUMNS[1]}' if len(TARGET_COLUMNS) > 1 else 'Actual Target 2')
-    plt.plot(inversed_predictions[:, 1], color='red', label=f'Predicted {TARGET_COLUMNS[1]}' if len(TARGET_COLUMNS) > 1 else 'Predicted Target 2')
-    plt.title(f'{TARGET_COLUMNS[1]} Prediction' if len(TARGET_COLUMNS) > 1 else 'Target 2 Prediction')
+    plt.plot(inversed_y_test[:, 1], color='blue', label=f'Actual {target_features[1]}' if len(target_features) > 1 else 'Actual Target 2')
+    plt.plot(inversed_predictions[:, 1], color='red', label=f'Predicted {target_features[1]}' if len(target_features) > 1 else 'Predicted Target 2')
+    plt.title(f'{target_features[1]} Prediction' if len(target_features) > 1 else 'Target 2 Prediction')
     plt.xlabel('Time')
     plt.ylabel('Proportion')
     plt.legend()

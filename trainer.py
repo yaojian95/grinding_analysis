@@ -7,6 +7,8 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 from config import EPOCHS, BATCH_SIZE
+import time
+from datetime import datetime
 
 def train_pytorch_model(model, X_train, y_train, X_test, y_test):
     """
@@ -50,8 +52,33 @@ def train_pytorch_model(model, X_train, y_train, X_test, y_test):
         with torch.no_grad():
             test_outputs = model(X_test_tensor)
             test_loss = criterion(test_outputs, y_test_tensor)
-        
-        print(f"Epoch [{epoch+1}/{EPOCHS}], Loss: {loss.item():.4f}, Test Loss: {test_loss.item():.4f}")
+        # 初始化并记录日志文件（仅在第一个 epoch 时执行一次）
+        if epoch == 0:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            log_filename = f"{timestamp}.log"
+
+            # 在控制台打印模型和超参数
+            print(model)
+            lr = optimizer.param_groups[0].get('lr', 'N/A') if 'optimizer' in locals() else 'N/A'
+            opt_name = optimizer.__class__.__name__ if 'optimizer' in locals() else 'N/A'
+            print(f"Hyperparameters: epochs={EPOCHS}, batch_size={BATCH_SIZE}, optimizer={opt_name}, lr={lr}")
+
+            # 将模型和超参数写入日志文件
+            with open(log_filename, "a") as f:
+                f.write(f"Model:\n{model}\n\n")
+                f.write(f"Hyperparameters: epochs={EPOCHS}, batch_size={BATCH_SIZE}, optimizer={opt_name}, lr={lr}\n\n")
+
+        # 将每个 epoch 的训练/测试损失追加到日志文件，并在控制台打印
+        try:
+            with open(log_filename, "a") as f:
+                f.write(f"Epoch [{epoch+1}/{EPOCHS}], Loss: {loss.item():.4f}, Test Loss: {test_loss.item():.4f}\n")
+        except NameError:
+            # 若 log_filename 未定义（异常情况），创建新的基于时间戳的日志文件
+            fallback_name = datetime.now().strftime("%Y%m%d_%H%M%S") + ".log"
+            with open(fallback_name, "a") as f:
+                f.write(f"Epoch [{epoch+1}/{EPOCHS}], Loss: {loss.item():.4f}, Test Loss: {test_loss.item():.4f}\n")
+
+        # print(f"Epoch [{epoch+1}/{EPOCHS}], Loss: {loss.item():.4f}, Test Loss: {test_loss.item():.4f}")
 
     print("PyTorch 模型训练完成。")
     return model

@@ -1,1 +1,9 @@
 *.png
+*pyc
+*ipynb_checkpoints
+__pycache__/
+.env
+.vscode/
+.DS_Store
+*.pth
+*.log

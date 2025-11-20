@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import torch
 import os
 
-from data_loader import load_and_preprocess_data, create_dataset_for_lstm, create_dataset_for_limix, generate_dummy_data
+from data_loader import load_and_preprocess_data, create_dataset_for_lstm, create_dataset_for_limix
 from model_builder import build_lstm_model, build_attention_lstm_model, build_limix_model # 导入 LimiX 模型构建函数
 from trainer import train_pytorch_model, evaluate_pytorch_model, evaluate_limix_model
 from visualizer import plot_predictions
@@ -15,7 +15,7 @@ from config import (
     TIME_STEP, TEST_SPLIT, MODEL_PATH, DATA_FILE,
 )
 
-def main():
+def main(model_choice = 'lstm'):
     print("\n--- 工业生产时序数据多输出预测项目 ---")
 
     # 0. 确保结果目录存在
@@ -30,7 +30,7 @@ def main():
 
     # 2. 模型选择与预测
     print("\n阶段2: 模型选择与预测...")
-    model_choice = "limix" # 默认使用 LimiX 模型，用户可以在实际运行时修改
+    # model_choice = "limix" # 默认使用 LimiX 模型，用户可以在实际运行时修改
 
     if model_choice == "lstm":
         # 创建数据集 (LSTM)
@@ -100,7 +100,7 @@ def main():
 
     # 3. 结果可视化
     print("\n阶段3: 结果可视化...")
-    plot_predictions(inversed_y_test, inversed_predictions)
+    plot_predictions(inversed_y_test, inversed_predictions, existing_targets)
 
     print("\n--- 项目运行完成 --- ")
 

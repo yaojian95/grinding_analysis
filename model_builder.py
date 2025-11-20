@@ -129,7 +129,7 @@ def build_limix_model(input_dim, output_dim):
     # LimiX 模型需要预先下载。这里假设模型文件路径为 \'limix_model/LimiX-16M.ckpt\'
     # 您需要根据 LimiX 的官方文档下载相应的模型文件并放置到正确路径。
     # 例如：wget https://www.limix.ai/models/LimiX-16M.ckpt -P limix_model/
-    model_path = \'limix_model/LimiX-16M.ckpt\'
+    model_path = 'limix_model/LimiX-16M.ckpt'
     
     # 检查模型文件是否存在
     import os
@@ -142,7 +142,7 @@ def build_limix_model(input_dim, output_dim):
             url = "https://www.limix.ai/models/LimiX-16M.ckpt"
             response = requests.get(url, stream=True)
             response.raise_for_status() # 检查请求是否成功
-            with open(model_path, \'wb\') as f:
+            with open(model_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
             print(f"LimiX 模型文件已下载到 {model_path}")
@@ -164,7 +164,7 @@ def build_limix_model(input_dim, output_dim):
     limix_predictor = LimiXPredictor(
         device=device,
         model_path=model_path,
-        task_type=\'Regression\', # 您的任务是回归
+        task_type='Regression', # 您的任务是回归
         categorical_features_indices=categorical_features_indices,
         inference_config=inference_config
     )
